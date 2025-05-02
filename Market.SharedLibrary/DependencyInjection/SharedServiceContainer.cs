@@ -13,7 +13,8 @@ public static class SharedServiceContainer
     {
         services.AddDbContext<TContext>(option => option.UseSqlServer(
             configuration.GetConnectionString("DefaultConnection"), sqlServerOption =>
-            sqlServerOption.EnableRetryOnFailure()
+            sqlServerOption.MigrationsAssembly("ProductService.Infrastructure")
+
             ));
 
         Log.Logger = new LoggerConfiguration()
@@ -33,7 +34,7 @@ public static class SharedServiceContainer
     {
         app.UseMiddleware<GlobalException>();
 
-        app.UseMiddleware<ListenToOnlyApiGateway>();
+        //app.UseMiddleware<ListenToOnlyApiGateway>();
 
         return app;
     }

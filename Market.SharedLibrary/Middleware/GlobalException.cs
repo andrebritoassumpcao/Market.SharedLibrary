@@ -22,7 +22,7 @@ public class GlobalException(RequestDelegate next)
             {
                 title = "Warning";
                 message = "Too many requests were made.";
-                statusCode = (int)StatusCodes.Status429TooManyRequests;
+                statusCode = StatusCodes.Status429TooManyRequests;
                 await ModifyHeader(context, title, message, statusCode);
             }
 
@@ -30,7 +30,7 @@ public class GlobalException(RequestDelegate next)
             {
                 title = "Alert";
                 message = "You are no authorized to acess.";
-                statusCode = (int)StatusCodes.Status401Unauthorized;
+                statusCode = StatusCodes.Status401Unauthorized;
                 await ModifyHeader(context, title, message, statusCode);
             }
 
@@ -38,7 +38,7 @@ public class GlobalException(RequestDelegate next)
             {
                 title = "Out of Access";
                 message = "You are not allowed/required to access.";
-                statusCode = (int)StatusCodes.Status403Forbidden;
+                statusCode = StatusCodes.Status403Forbidden;
                 await ModifyHeader(context, title, message, statusCode);
             }
         }
@@ -50,8 +50,12 @@ public class GlobalException(RequestDelegate next)
             {
                 title = "Timeout";
                 message = "Request timeout, try again!";
-                statusCode = (int)StatusCodes.Status408RequestTimeout;
+                statusCode = StatusCodes.Status408RequestTimeout;
             }
+
+            if(ex.Message is not null)
+                message = ex.Message;
+
             await ModifyHeader(context, title, message, statusCode);
         }
     }
